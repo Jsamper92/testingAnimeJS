@@ -1,49 +1,108 @@
-import { Component, OnInit } from '@angular/core';
-import anime from 'animejs/lib/anime.es.js';
+import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
+import anime from 'animejs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
   title = 'testingAnimeJS';
-  progress: any = 0;
-  animation;
-  alert;
-  createAlert() {
+  updates = 0;
+  loopbeganNumber = 0;
+  animation: any;
+  alert: any;
+  svg: any;
+
+  @ViewChild('input') input: ElementRef;
+  @ViewChild('loopbegan') loopbegan: ElementRef;
+  @ViewChild('loopcompleted') loopcompleted: ElementRef;
+
+  ngOnInit() {
+    this.createAnimationBasic();
+    this.createAlert();
+    this.animationSVG();
+    this.svg.play();
+  }
+
+  createAlert(): void {
     this.alert = anime.timeline({
       targets: '.alert',
       translateY: 0,
       colors: 'rgb(227, 255, 224)',
       direction: 'alternate',
-      duration:2000,
+      duration: 2000,
       autoplay: false,
       easing: 'easeInOutSine',
     }).add({ targets: '.alert', background: '#78be20' }, 0);
   }
 
-  showAlert(){
+  showAlert(): void {
+
     this.alert.play();
   }
 
   createAnimationBasic(): void {
+    const objeto = this.input;
+    const loopbegan = this.loopbegan;
     this.animation = anime({
       targets: '.box',
       translateX: 250,
       duration: 3000,
-      direction: 'alternate',
       rotate: 250,
       loop: true,
-      bagroundColor: '#FFF',
+      direction: 'alternate',
       borderRadius: ['0%', '50%'],
       easing: 'easeInOutSine',
-      autoplay: false
+      autoplay: false,
+      update(anim) {
+        objeto.nativeElement.value = 'progress : ' + Math.round(anim.progress) + '%';
+      },
+      loopBegin(anim) {
+        const vueltas = anim.begin++;
+        loopbegan.nativeElement.value = 'loop : ' + vueltas;
+      }
     });
+
   }
+
+  animationSVG(): void {
+    this.svg = anime.timeline({
+      targets: '.icon-line',
+      easing: 'easeInOutSine',
+      strokeDashoffset: [anime.setDashoffset, 0],
+      duration: 2400,
+      begin() {
+        document.querySelector('path').setAttribute("stroke", "black");
+        document.querySelector('path').setAttribute("stroke-width", "3");
+        document.querySelector('path').setAttribute("fill", "#E23237");
+      },
+      loop: false,
+      autoplay: false
+    })
+      .add({
+        targets: '.icon-background',
+        opacity: [
+          { value: 0, easing: 'easeOutSine', duration: 1000 },
+          { value: 1, easing: 'easeInOutQuad', duration: 1200 }
+        ]
+      }, 0)
+      .add({
+        targets: '.icon-letter',
+        opacity: [
+          { value: 0, easing: 'easeOutSine', duration: 2000 },
+          { value: 1, easing: 'easeInOutQuad', duration: 1200 }
+        ], scale: [
+          { value: 0, easing: 'easeOutSine', duration: 1000, delay: 1000 },
+          { value: 1, easing: 'easeInOutQuad' }
+        ]
+      }, 1000)
+  }
+
 
   start(): void {
     this.animation.play();
+    this.svg.play();
   }
 
   pause(): void {
@@ -54,11 +113,10 @@ export class AppComponent implements OnInit {
     this.animation.reverse();
   }
 
-
-
-  ngOnInit() {
-    this.createAnimationBasic();
-    this.createAlert();
+  reset(): void {
+    this.animation.reset();
   }
+
+
 }
 
