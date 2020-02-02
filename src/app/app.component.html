@@ -5,6 +5,11 @@
   <div class="alert"></div>
   <div class="box"></div>
 </article>
+<section class="loader">
+  <div class="ball one"></div>
+  <div class="ball two"></div>
+  <div class="ball three"></div>
+</section>
 <button (click)="start()" class="btn">Start</button>
 <button (click)="pause()" class="btn">Pause</button>
 <button (click)="reverse()" class="btn">Reverse</button>
@@ -13,9 +18,12 @@
 
 
 <div class="result">
-  <input class="progress" #input type="text" name="" id="" value="0">
-  <input class="vueltas" #loopbegan type="text" name="" id="" value="0">
+  <input class="progress" #input type="text" name="" value="0">
+  <input class="vueltas" #loopbegan type="text" name="" value="0">
 </div>
+
+
+
 
 <div class="icon-angular">
   <svg class="angular" width="256px" height="272px" viewBox="0 0 256 272" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid">

@@ -13,6 +13,7 @@ export class AppComponent implements OnInit {
   animation: any;
   alert: any;
   svg: any;
+  loader:any;
 
   @ViewChild('input') input: ElementRef;
   @ViewChild('loopbegan') loopbegan: ElementRef;
@@ -22,6 +23,7 @@ export class AppComponent implements OnInit {
     this.createAnimationBasic();
     this.createAlert();
     this.animationSVG();
+    this.animationLoader();
     this.svg.play();
   }
 
@@ -98,6 +100,35 @@ export class AppComponent implements OnInit {
         ]
       }, 1000)
   }
+
+  animationLoader(){
+    this.loader = anime.timeline({
+      duration: 1000,
+      easing: 'easeInOutSine',
+      loop: true
+    });
+
+    this.loader.add({
+      targets: '.one',
+      keyframes: [
+        {translateY: -50, backgroundColor: 'rgb(255, 0, 0)' },
+        {translateY: 0, backgroundColor: 'rgb(128, 128, 128)'}
+      ]
+    }).add({
+      targets: '.two',
+      keyframes: [
+        {translateY: -50, backgroundColor: 'rgb(0, 255, 0)' },
+        {translateY: 0, backgroundColor: 'rgb(128, 128, 128)'}
+      ]
+    }, '-=900').add({
+      targets: '.three',
+      keyframes: [
+        {translateY: -50, backgroundColor: 'rgb(0, 0, 255)' },
+        {translateY: 0, backgroundColor: 'rgb(128, 128, 128)'}
+      ]
+    }, '-=800');
+  }
+
 
 
   start(): void {
