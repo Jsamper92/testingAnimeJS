@@ -1,0 +1,27 @@
+.result{
+  background-color: gray;
+  border-radius: 25px;
+  position: absolute;
+  top: 20%;
+  height: 65px;
+  left: 50%;
+  transform: translate(-50%, 30%);
+}
+
+.progress,
+.vueltas {
+  position: relative;
+  display: block;
+  text-align: center;
+  border: none;
+  height: 27px;
+  -webkit-appearance: none;
+  background-color: transparent;
+}
+
+.box{
+  width: 150px;
+  margin: 100px 0;
+  height: 150px;
+  background-color: red;
+}
